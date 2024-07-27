@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programming Language Recommendation System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 500px;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background: #5cb85c;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #4cae4c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Programming Language Recommendation</h1>
+        <form id="recommendForm">
+            <label for="learnedLang">Programming Language You Know:</label>
+            <input type="text" id="learnedLang" name="learnedLang" required>
+            <label for="field">Desired Field:</label>
+            <select id="field" name="field" required>
+                <option value="Web Development">Web Development</option>
+                <option value="Data Science">Data Science</option>
+                <option value="Mobile Development">Mobile Development</option>
+                <option value="Game Development">Game Development</option>
+                <option value="DevOps">DevOps</option>
+            </select>
+            <button type="submit">Get Recommendations</button>
+        </form>
+    </div>
+
+    <script>
+        const languages = [
+            { id: 'js', name: 'JavaScript', details: 'JavaScript is a versatile language used for both client-side and server-side development.', image: 'https://static.vecteezy.com/system/resources/previews/027/127/463/original/javascript-logo-javascript-icon-transparent-free-png.png' },
+            { id: 'html', name: 'HTML', details: 'HTML is the standard markup language for creating web pages.', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/2048px-HTML5_logo_and_wordmark.svg.png' },
+            { id: 'css', name: 'CSS', details: 'CSS is used to style and layout web pages.', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTO5ryTY9VShCV5uJWhoBXkcxxlFB8O5bbxGA&s' },
+            { id: 'python', name: 'Python', details: 'Python is widely used in data science for its simplicity and powerful libraries.', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxe6IR3EKgALq0lEUvpW3GmPH8rpAv1cK0_w&s' },
+            { id: 'r', name: 'R', details: 'R is a language and environment for statistical computing and graphics.', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4SIjj-NvcDFDwBt6oYXhDNsBa2UbKfuFsPQ&s' },
+            { id: 'sql', name: 'SQL', details: 'SQL is used to manage and manipulate relational databases.', image: 'https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/sql/sql.png' },
+            { id: 'kotlin', name: 'Kotlin', details: 'Kotlin is a modern language that interoperates fully with Java and is used for Android development.', image: 'https://global.discourse-cdn.com/business5/uploads/kotlinlang/original/2X/f/f440c5115af253e7b8dfdd241a45ccb8e494e8a6.png' },
+            { id: 'swift', name: 'Swift', details: 'Swift is a powerful language for iOS and macOS app development.', image: 'https://logowik.com/content/uploads/images/558_swift_logo_icon.jpg' },
+            { id: 'java', name: 'Java', details: 'Java is a popular language for developing Android apps.', image: 'https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/181_Java_logo_logos-512.png' },
+            { id: 'cpp', name: 'C++', details: 'C++ is used for high-performance game development.', image: 'https://w7.pngwing.com/pngs/579/803/png-transparent-the-c-programming-language-programmer-computer-programming-programming-blue-logo-computer-program.png  ' },
+            { id: 'csharp', name: 'C#', details: 'C# is used with the Unity game engine for developing games.', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeP4kRQw5TMI7_pjMAlIZmRqqAtU-YbAeQGQ&s' },
+            { id: 'unity', name: 'Unity', details: 'Unity is a cross-platform game engine used to create games.', image: 'https://i.redd.it/tu3gt6ysfxq71.png' },
+            { id: 'go', name: 'Go', details: 'Go is used for building efficient and scalable software.', image: 'https://go.dev/blog/go-brand/Go-Logo/PNG/Go-Logo_Blue.png' },
+            { id: 'ruby', name: 'Ruby', details: 'Ruby is used for infrastructure automation and web development.', image: 'https://go.dev/blog/go-brand/Go-Logo/PNG/Go-Logo_Blue.png' }
+        ];
+
+        const fieldPreferences = {
+            'Web Development': ['js', 'html', 'css'],
+            'Data Science': ['python', 'r', 'sql'],
+            'Mobile Development': ['kotlin', 'swift', 'java'],
+            'Game Development': ['cpp', 'csharp', 'unity'],
+            'DevOps': ['python', 'go', 'ruby']
+        };
+
+        document.getElementById('recommendForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const learnedLang = document.getElementById('learnedLang').value;
+            const field = document.getElementById('field').value;
+            const preferredLangIds = fieldPreferences[field] || [];
+            const preferredLangs = languages.filter(lang => preferredLangIds.includes(lang.id));
+            const otherLangs = languages.filter(lang => !preferredLangIds.includes(lang.id));
+
+            const params = new URLSearchParams({
+                field: field,
+                preferredLangs: JSON.stringify(preferredLangs),
+                otherLangs: JSON.stringify(otherLangs)
+            });
+
+            window.location.href = 'recommendations.html?' + params.toString();
+        });
+    </script>
+</body>
+</html>

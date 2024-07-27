@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Cards</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        
+        .container {
+            text-align: center;
+        }
+        
+        .controls {
+            margin-bottom: 20px;
+        }
+        
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .card {
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin: 10px;
+            padding: 20px;
+            width: 200px;
+            transition: transform 0.3s;
+        }
+        
+        .card:hover {
+            transform: scale(1.05);
+        }
+        
+        .card-header {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        
+        .card-content {
+            font-size: 0.9em;
+            color: #555;
+        }
+        
+    </style>
+</head>
+<body>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const cardContainer = document.getElementById("cardContainer");
+            const addCardBtn = document.getElementById("addCardBtn");
+            const removeCardBtn = document.getElementById("removeCardBtn");
+            const cardCountSpan = document.getElementById("cardCount");
+        
+            let cardCount = 0;
+        
+            addCardBtn.addEventListener("click", () => {
+                cardCount++;
+                const card = createCard(cardCount);
+                cardContainer.appendChild(card);
+                updateCardCount();
+            });
+        
+            removeCardBtn.addEventListener("click", () => {
+                if (cardContainer.lastChild) {
+                    cardContainer.removeChild(cardContainer.lastChild);
+                    cardCount--;
+                    updateCardCount();
+                }
+            });
+        
+            function createCard(id) {
+                const card = document.createElement("div");
+                card.className = "card";
+                
+                const header = document.createElement("div");
+                header.className = "card-header";
+                header.textContent = `Card ${id}`;
+                
+                const content = document.createElement("div");
+                content.className = "card-content";
+                content.textContent = "This is a dynamically created card.";
+                
+                card.appendChild(header);
+                card.appendChild(content);
+                
+                card.addEventListener("click", () => {
+                    header.textContent = `Card ${id} (Updated)`;
+                    content.textContent = "The card content has been updated!";
+                });
+        
+                return card;
+            }
+        
+            function updateCardCount() {
+                cardCountSpan.textContent = cardCount;
+            }
+        });
+        
+    </script>
+    <div class="container">
+        <div class="controls">
+            <button id="addCardBtn">Add Card</button>
+            <button id="removeCardBtn">Remove Card</button>
+            <p>Total Cards: <span id="cardCount">0</span></p>
+        </div>
+        <div id="cardContainer" class="card-container"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

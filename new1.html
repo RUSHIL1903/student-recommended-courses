@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card</title>
+    <style>
+        body {
+            margin-top: 50px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        img {
+            width: 100%;
+            height: 120px;
+        }
+        a {
+            margin-left: 50px;
+            text-decoration: none;
+        }
+        .card {
+            max-width: 400px;
+            box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+        }
+        .card:hover {
+            box-shadow: 0 10px 20px 0 rgba(0,0,0,0.2);
+        }
+        .container {
+            padding: 2px 16px;
+        }
+    </style>
+</head>
+<body>
+    <div id="cards-container"></div>
+
+    <script>
+        const cardsData = [
+            {
+                imgSrc: "/img/CSSLogo.png",
+                altText: "CSS",
+                title: "CSS",
+                description1: "Better User Experience",
+                description2: "Easy Formatting Changes",
+                link: "https://youtu.be/ESnrn1kAD4E?si=FksXEXqaJfoW0BKP",
+                linkText: "View Course"
+            },
+            {
+                imgSrc: "/img/CSSLogo.png",
+                altText: "Node JS",
+                title: "Node JS",
+                description1: "Scalable Web App Development",
+                description2: "High Performance",
+                link: "https://youtube.com/playlist?list=PLinedj3B30sDby4Al-i13hQJGQoRQDfPo&si=fdQA33EqWvZk3hGG",
+                linkText: "View Course"
+            },
+            {
+                imgSrc: "/img/CSSLogo.png",
+                altText: "React JS",
+                title: "React JS",
+                description1: "Faster debugging and rendering",
+                description2: "Reusability of code components",
+                link: "https://youtube.com/playlist?list=PLinedj3B30sDby4Al-i13hQJGQoRQDfPo&si=fdQA33EqWvZk3hGG",
+                linkText: "View Course"
+            },
+            {
+                imgSrc: "/img/CSSLogo.png",
+                altText: "Angular JS",
+                title: "Angular JS",
+                description1: "Strong community support",
+                description2: "Data binding capabilities",
+                link: "https://youtube.com/playlist?list=PLinedj3B30sDby4Al-i13hQJGQoRQDfPo&si=fdQA33EqWvZk3hGG",
+                linkText: "View Course"
+            }
+        ];
+
+        const cardsContainer = document.getElementById('cards-container');
+
+        cardsData.forEach(card => {
+            const cardElement = document.createElement('div');
+            cardElement.classList.add('card');
+
+            cardElement.innerHTML = `
+                <img src="${card.imgSrc}" alt="${card.altText}">
+                <div class="container">
+                    <h2><b>${card.title}</b></h2>
+                    <p>${card.description1}</p>
+                    <p>${card.description2}</p>
+                    <a href="${card.link}"><b>${card.linkText}</b></a>
+                </div>
+            `;
+
+            cardsContainer.appendChild(cardElement);
+        });
+    </script>
+</body>
+</html>
